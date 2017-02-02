@@ -2,7 +2,7 @@ VM for WebSphere MQ 7.5, using Ubuntu with Vagrant.
 
 Using free developer version of WebSphere MQ.
 
-== MQ Installation ==
+## MQ Installation
 
 VM: `vagrant up`
 
@@ -12,10 +12,11 @@ https://www.ibm.com/developerworks/community/blogs/messaging/entry/develop_on_we
 Installing (on ubuntu):
 https://www.ibm.com/support/knowledgecenter/en/SSFKSJ_7.5.0/com.ibm.mq.ins.doc/q115250_.htm
 
-=== Detailed steps ===
+### Detailed steps 
 
 https://www.ibm.com/support/knowledgecenter/en/SSFKSJ_7.5.0/com.ibm.mq.ins.doc/q008550_.htm
 
+```
 vi /etc/sysctl.conf
 
 	fs.file-max = 524288
@@ -53,38 +54,41 @@ su mqm -c "/opt/mqm/bin/mqconfig"
 mkdir /usr/lib64
 /opt/mqm/bin/setmqinst -i -p /opt/mqm
 
+```
 
-== Verify installation ==
+## Verify installation 
 
 Source: https://www.ibm.com/support/knowledgecenter/en/SSFKSJ_7.5.0/com.ibm.mq.ins.doc/q009240_.htm
 
+```
 dspmqver
 # status is returned
 
 sudo su mqm
 
-Create a queue manager called QMAby entering the following command:
+# Create a queue manager called QMAby entering the following command:
 crtmqm QMA
-Messages indicate when the queue manager is created, and when the default IBM WebSphere MQ objects are created.
-Start the queue manager by entering the following command:
+# Messages indicate when the queue manager is created, and when the default IBM WebSphere MQ objects are created.
+# Start the queue manager by entering the following command:
 strmqm QMA
 A message indicates when the queue manager starts.
-Start MQSC by entering the following command:
+# Start MQSC by entering the following command:
 runmqsc QMA
-A message indicates when MQSC starts. MQSC has no command prompt.
+# A message indicates when MQSC starts. MQSC has no command prompt.
 Define a local queue called QUEUE1 by entering the following command:
 DEFINE QLOCAL (QUEUE1)
-A message indicates when the queue is created.
-Stop MQSC by entering the following command:
+# A message indicates when the queue is created.
+# Stop MQSC by entering the following command:
 end
 
 cd /opt/mqm/samp/bin
 
-.. (follow the docs)
+# .. (follow the docs)
+```
 
+## Configs 
 
-== Configs ==
-
+```
 # disable auth
 runmqsc QMA
 ALTER QMGR CHLAUTH(DISABLED)
@@ -101,23 +105,27 @@ end
 runmqsc QMA
 DEFINE CHANNEL(MYCHANNEL) CHLTYPE(SVRCONN)
 end
+```
 
-== Startup ==
-
+## Startup 
+```
 sudo su -
 
 su mqm -c "strmqm QMA"
 
 su mqm -c "runmqlsr -t tcp -p 1414 -m QMA &"
+```
 
-== Stop ==
+## Stop 
 
+```
 endmqm QMA
+```
 
-== Logs ==
+## Logs 
 
+```
 mqm@ubuntu-xenial:~/qmgrs/QMA/errors/*.LOG
-
-
+```
 
 
